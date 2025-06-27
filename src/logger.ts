@@ -13,7 +13,7 @@ interface LogEntry {
 }
 
 // Global logging configuration
-let currentLogLevel: LogLevel = 'error'; // Default to error level
+let currentLogLevel: LogLevel = 'info'; // Default to info level
 let debugMode: boolean = false;
 let loggingEnabled: boolean = true;
 
@@ -77,7 +77,7 @@ function logJson(level: LogLevel, message: string, data?: any): void {
     message,
     ...(data && { data })
   };
-  console.log(JSON.stringify(logEntry));
+  console.error(JSON.stringify(logEntry));
 }
 
 /**

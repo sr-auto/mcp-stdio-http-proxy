@@ -88,7 +88,7 @@ class ProxyOAuthProvider implements OAuthClientProvider {
 
     tokens(): OAuthTokens | undefined {
         return this._tokens;
-    }    async saveTokens(tokens: OAuthTokens): Promise<void> {
+    } async saveTokens(tokens: OAuthTokens): Promise<void> {
         this._tokens = tokens;
         logInfo('OAuth tokens saved successfully');
     }
@@ -169,7 +169,8 @@ class ProxyOAuthProvider implements OAuthClientProvider {
             });
 
             // Use the port from the redirect URI if specified, otherwise use the configured port
-            const port = redirectUrl.port ? parseInt(redirectUrl.port) : this.config.oauthServer.port;            this.oauthServer = app.listen(port, () => {
+            const port = redirectUrl.port ? parseInt(redirectUrl.port) : this.config.oauthServer.port; 
+            this.oauthServer = app.listen(port, () => {
                 logInfo('OAuth callback server listening', { port, callbackPath });
                 resolve();
             });
@@ -177,9 +178,9 @@ class ProxyOAuthProvider implements OAuthClientProvider {
             // Handle server startup errors
             this.oauthServer.on('error', (error: any) => {
                 if (error.code === 'EADDRINUSE') {
-                    logError('Port already in use', { 
-                        port, 
-                        error: 'Please set OAUTH_REDIRECT_URI to use a different port' 
+                    logError('Port already in use', {
+                        port,
+                        error: 'Please set OAUTH_REDIRECT_URI to use a different port'
                     });
                 }
                 reject(error);
@@ -221,22 +222,22 @@ async function discoverOAuthMetadata(serverUrl: string): Promise<OAuthMetadata> 
             logInfo('OAuth metadata found', { url: oauthMetadataUrl.toString() });
         }
         else {
-            logWarn('Failed to fetch OAuth metadata', { 
-                url: oauthMetadataUrl.toString(), 
-                status: oauthResponse.statusText 
+            logWarn('Failed to fetch OAuth metadata', {
+                url: oauthMetadataUrl.toString(),
+                status: oauthResponse.statusText
             });
             try {
                 logDebug('Retrying with OpenID Connect metadata endpoint');
                 logDebug('Fetching OpenID Connect metadata', { url: openIdMetadataUrl.toString() });
                 // Then try OpenID Connect metadata endpoint
-                const openIdResponse = await fetch(openIdMetadataUrl);                if (openIdResponse.ok) {
+                const openIdResponse = await fetch(openIdMetadataUrl); if (openIdResponse.ok) {
                     metadata = openIdResponse.json();
                     logInfo('OAuth metadata found at OpenID endpoint', { url: openIdMetadataUrl.toString() });
                 }
             } catch (error) {
-                logWarn('Failed to fetch OpenID metadata', { 
-                    url: openIdMetadataUrl.toString(), 
-                    error: formatError(error) 
+                logWarn('Failed to fetch OpenID metadata', {
+                    url: openIdMetadataUrl.toString(),
+                    error: formatError(error)
                 });
             }
         }
@@ -250,7 +251,7 @@ async function discoverOAuthMetadata(serverUrl: string): Promise<OAuthMetadata> 
 async function customAuth(provider: ProxyOAuthProvider, options: { serverUrl: string, scope?: string, authorizationCode?: string, resourceMetadataUrl?: URL }): Promise<'AUTHORIZED' | 'REDIRECT'> {
     logInfo('Starting OAuth authentication', { serverUrl: options.serverUrl, options });
     let resourceMetadata: OAuthProtectedResourceMetadata | undefined;
-    let authorizationServerUrl = options.serverUrl;    try {
+    let authorizationServerUrl = options.serverUrl; try {
         resourceMetadata = await discoverOAuthProtectedResourceMetadata(options.serverUrl, { resourceMetadataUrl: options.resourceMetadataUrl });
         logInfo('Discovered OAuth protected resource metadata', { resourceMetadata });
         if (resourceMetadata.authorization_servers && resourceMetadata.authorization_servers.length > 0) {
