@@ -2,6 +2,7 @@
   "name": "mcp-stdio-http-proxy",
   "version": "1.0.0",
   "description": "A TypeScript proxy that bridges stdio MCP clients (like Claude Desktop) to HTTP SSE MCP servers with OAuth authentication",
+  "homepage": "https://github.com/sr-auto/mcp-stdio-http-proxy#README.md",
   "main": "dist/index.js",
   "bin": {
     "mcp-stdio-http-proxy": "dist/index.js"

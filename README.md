@@ -20,8 +20,7 @@ The easiest way to use this proxy is with `npx` - no installation required!
         "MCP_SERVER_URL": "https://your-protected-mcp-server.com/sse"
       }
     }
-  },
-  "isHardwareAccelerationDisabled": true
+  }
 }
 ```
 
